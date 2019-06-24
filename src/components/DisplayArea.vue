@@ -3,39 +3,46 @@
     <div class="jumbotron">
       <div class="container">
         <h1 v-if="tag!=null">{{ tag }}</h1>
-        <span v-if="ArticleDatas!=null">
-          <div class="d-flex justify-content-center">
-          <button type="button" class="col-1 btn btn-outline-dark" @click="prevPage()"><</button>
-          <span class="col-1">{{ page }}/{{ MaxPage }}</span>
-          <button type="button" class="col-1 btn btn-outline-dark" @click="nextPage()">></button>
-          </div>
+        <!--表示領域-->
+        <span class="mx-auto" v-if="ArticleDatas!=null">
+          <!--ページ送り-->
+          <button type="button" class="btn btn-outline-dark" @click="prevPage()"><</button>
+          {{ page }}/{{ MaxPage }}
+          <button type="button" class="btn btn-outline-dark" @click="nextPage()">></button>
+          <!--ページ送り-->
+          <!--表示テーブル-->
           <div v-for="(ArticleData,index) in SliceItems":key="index">
-            <h4>{{ (index+1)+(page-1)*5 }}</h4>
-            <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
-                  <tr><th width="10%">title</th><th><a :href="ArticleData.url">{{ ArticleData.title }}</a></th></tr>
+            <h4 class="mx-auto">{{ (index+1)+(page-1)*5 }}</h4>
+            <table class="table table-hover">
+                <thead>
+                  <tr><th colspan="2"><a :href="ArticleData.url">{{ ArticleData.title }}</a></th></tr>
                 </thead>
                 <tbody>
                   <tr><th width="10%">Writer</th><th>{{ ArticleData.user.name }}</th></tr>
-                  <tr><th width="10%">Good</th><th><span>{{ ArticleData.likes_count }}</span></th></tr>
-                  <tr><th width="10%">Viwer</th><th><span>{{ ArticleData.page_views_count }}</span></th></tr>
-                  <tr><th width="10%">Comments</th><th><span>{{ ArticleData.comments_count }}</span></th></tr>
-                  <tr><th width="10%">Other Tags</th><th><span v-for=" tag in ArticleData.tags":key="tag.id">{{ tag.name }}, </span></th></tr>
+                  <tr><th width="10%">Good</th><th>{{ ArticleData.likes_count }}</th></tr>
+                  <tr><th width="10%">Created</th><th>{{ ArticleData.created_at }}</th></tr>
+                  <tr v-if="ArticleData.created_at!=ArticleData.updated_at">
+                    <th width="10%">Updated</th><th>{{ ArticleData.updated_at }}</th>
+                  </tr>
+                  <tr><th width="10%">Comments</th><th>{{ ArticleData.comments_count }}</th></tr>
+                  <tr><th width="10%">Other Tags</th><th><span v-for=" tag in ArticleData.tags">{{ tag.name }},</span></th></tr>
                 </tbody>
             </table>
             </div>
+            <!--表示テーブル-->
+            <!--ページ送り-->
             <button type="button" class="btn btn-outline-dark" @click="prevPage()"><</button>
-            <span>{{ page }}/{{ MaxPage }}</span>
+            {{ page }}/{{ MaxPage }}
             <button type="button" class="btn btn-outline-dark" @click="nextPage()">></button>
+            <!--ページ送り-->
           </span>
+          <!--表示領域-->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-//v-for="ArticleData in ArticleDatas"
-
 export default {
   name: 'display',
   props:{
@@ -93,20 +100,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 
 table{
     width:97%;
