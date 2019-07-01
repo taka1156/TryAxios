@@ -12,7 +12,7 @@
           <!--ページ送り-->
           <!--表示テーブル-->
           <div v-for="(ArticleData,index) in SliceItems":key="index">
-            <h4 class="mx-auto">{{ (index+1)+(page-1)*5 }}</h4>
+            <h4>{{ (index+1)+(page-1)*5 }}</h4>
             <table class="table table-hover">
                 <thead>
                   <tr><th colspan="2"><a :href="ArticleData.url">{{ ArticleData.title }}</a></th></tr>
@@ -28,14 +28,14 @@
                   <tr><th width="10%">Other Tags</th><th><span v-for=" tag in ArticleData.tags">{{ tag.name }},</span></th></tr>
                 </tbody>
             </table>
-            </div>
-            <!--表示テーブル-->
-            <!--ページ送り-->
-            <button type="button" class="btn btn-outline-dark" @click="prevPage()"><</button>
-            {{ page }}/{{ MaxPage }}
-            <button type="button" class="btn btn-outline-dark" @click="nextPage()">></button>
-            <!--ページ送り-->
-          </span>
+          </div>
+          <!--表示テーブル-->
+          <!--ページ送り-->
+          <button type="button" class="btn btn-outline-dark" @click="prevPage()"><</button>
+          {{ page }}/{{ MaxPage }}
+          <button type="button" class="btn btn-outline-dark" @click="nextPage()">></button>
+          <!--ページ送り-->
+        </span>
           <!--表示領域-->
       </div>
     </div>
@@ -54,23 +54,19 @@ export default {
     return{
       page:1,//現在のページ番号
       perPage:5,//1ページ毎の表示件数
-      SortArray:null,
     }
   },
   watch:{
     ArticleDatas:function(){
       this.page = 1;
-      this.SortArray = this.ArticleDatas;
       this.Sort();
     }
   },
   computed:{
-    DisplayArray(){
-        return this.SortArray;
-    },
     SliceItems(){
       console.log("page="+this.page);
-      return this.DisplayArray.slice((this.page - 1) * this.perPage, this.page * this.perPage);
+      if(this.ArticleDatas == null)return;
+      return this.ArticleDatas.slice((this.page - 1) * this.perPage, this.page * this.perPage);
     },
     MaxPage(){
       return this.DataNum/this.perPage;//総ページ数
@@ -84,12 +80,12 @@ export default {
       this.page = Math.min(this.page+ 1, this.MaxPage);
     },
     Sort(){
-      for(var i=0;i<this.SortArray.length;i++){
-        for(var j=i;j<this.SortArray.length;j++){
-          if(this.SortArray[i].likes_count<this.SortArray[j].likes_count){
-              var tmp = this.SortArray[i];
-              this.SortArray[i] = this.SortArray[j];
-              this.SortArray[j] = tmp;
+      for(let i=0;i<this.ArticleDatas.length;i++){
+        for(let j=i;j<this.ArticleDatas.length;j++){
+          if(this.ArticleDatas[i].likes_count<this.ArticleDatas[j].likes_count){
+              let tmp = this.ArticleDatas[i];
+              this.ArticleDatas[i] = this.ArticleDatas[j];
+              this.ArticleDatas[j] = tmp;
           }
         }
       }

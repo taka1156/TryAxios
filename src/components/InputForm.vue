@@ -11,10 +11,11 @@
                 <option v-for="word in KeyWordList">{{word}}</option>
               </datalist>
             <!--keyword入力-->
+
             <!--最大ページ数入力-->
             <label>MaxIndex</label>
             <select type="number"  class="col-4 mx-auto form-group form-control" 
-             v-model="DataNum"　plaseholder="10">
+             v-model="MaxIndex"　plaseholder="10">
               <option v-for="Index in [10,20,30,40,50,60,70,80,90,100]">{{Index}}</option>
             </select>
             <!--最大ページ数入力-->
@@ -33,15 +34,14 @@ export default {
   name:'InputForm',
   data() {
     return {
-      KeyWord:'vue',
-      DataNum:10,
+      KeyWord:'vue.js',
+      MaxIndex:10,
       KeyWordList:WordList.KeyWordList
     }
   },
   methods:{
     setWord(){
-      console.log("Input Word=" + this.Word);
-      this.$emit('setWord',this.KeyWord,this.DataNum);
+      this.$emit('setWord',this.KeyWord,this.MaxIndex);
     }
   }
 }
