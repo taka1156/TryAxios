@@ -48,7 +48,6 @@ export default {
   props:{
     ArticleDatas:null,
     tag:null,
-    DataNum:null//データの総数
   },
   data(){
     return{
@@ -69,7 +68,7 @@ export default {
       return this.ArticleDatas.slice((this.page - 1) * this.perPage, this.page * this.perPage);
     },
     MaxPage(){
-      return this.DataNum/this.perPage;//総ページ数
+      return this.ArticleDatas.length/this.perPage;//総ページ数
     },
   },
   methods:{

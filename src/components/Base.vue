@@ -9,7 +9,6 @@
         <DisplayArea
             v-bind:ArticleDatas="dataObj"
             v-bind:tag="Word"
-            v-bind:DataNum="DataNum"
         ></DisplayArea>
 
     </div>
@@ -37,7 +36,6 @@ export default{
             url:String,
             dataObj:Object,
             Word:String,
-            DataNum:10,
         }
     },
     watch:{
@@ -55,7 +53,6 @@ export default{
     methods:{
         setWord(Word,MaxIndex){
             this.Word = Word;
-            this.DataNum = MaxIndex;
             this.url = URL_BASE_Qiita + Word + DITAIL_Qiita + MaxIndex;
         }
     },
