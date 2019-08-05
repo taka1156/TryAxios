@@ -33,7 +33,7 @@ export default{
         return{
             msg:'Vue axios',
             title:'Qiita API V2',
-            url:String,
+            url:null,
             dataObj:Object,
             Word:String,
         }
@@ -52,6 +52,7 @@ export default{
     },
     methods:{
         setWord(Word,MaxIndex){
+            this.dataObj = null;
             this.Word = Word;
             this.url = URL_BASE_Qiita + Word + DITAIL_Qiita + MaxIndex;
         }

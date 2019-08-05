@@ -3,17 +3,23 @@
     <div class="jumbotron">
       <div class="container">
         <h1 v-if="tag!=null">{{ tag }}</h1>
+        
+        <div v-if="ArticleDatas === null">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
         <!--表示領域-->
-        <span class="mx-auto" v-if="ArticleDatas!=null">
+        <span class="mx-auto" v-else>
           <!--ページ送り-->
-          <button type="button" class="btn btn-outline-dark" @click="prevPage()"><</button>
+          <button type="button" class="btn btn-outline-dark" @click="prevPage()">&lt;</button>
           {{ page }}/{{ MaxPage }}
-          <button type="button" class="btn btn-outline-dark" @click="nextPage()">></button>
+          <button type="button" class="btn btn-outline-dark" @click="nextPage()">&gt;</button>
           <!--ページ送り-->
           <!--表示テーブル-->
-          <div v-for="(ArticleData,index) in SliceItems":key="index">
+          <div v-for="(ArticleData,index) in SliceItems" :key="index">
             <h4>{{ (index+1)+(page-1)*5 }}</h4>
-            <table class="table table-hover">
+            <table class="text table table-hover">
                 <thead>
                   <tr><th colspan="2"><a :href="ArticleData.url">{{ ArticleData.title }}</a></th></tr>
                 </thead>
@@ -25,15 +31,21 @@
                     <th width="10%">Updated</th><th>{{ ArticleData.updated_at }}</th>
                   </tr>
                   <tr><th width="10%">Comments</th><th>{{ ArticleData.comments_count }}</th></tr>
-                  <tr><th width="10%">Other Tags</th><th><span v-for=" tag in ArticleData.tags">{{ tag.name }},</span></th></tr>
+                  <tr><th width="10%">Other Tags</th>
+                    <th>
+                      <span v-for=" (tag,index) in ArticleData.tags" :key = "index">
+                        <div v-if="index<6">{{ tag.name }},</div>
+                      </span>
+                    </th>
+                  </tr>
                 </tbody>
             </table>
           </div>
           <!--表示テーブル-->
           <!--ページ送り-->
-          <button type="button" class="btn btn-outline-dark" @click="prevPage()"><</button>
+          <button type="button" class="btn btn-outline-dark" @click="prevPage()">&lt;</button>
           {{ page }}/{{ MaxPage }}
-          <button type="button" class="btn btn-outline-dark" @click="nextPage()">></button>
+          <button type="button" class="btn btn-outline-dark" @click="nextPage()">&gt;</button>
           <!--ページ送り-->
         </span>
           <!--表示領域-->
@@ -107,5 +119,8 @@ table,th,tr{
 
 thead{
     background-color: #d3d3d3;
+}
+.text{
+    word-wrap: break-word;
 }
 </style>
