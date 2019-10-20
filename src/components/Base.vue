@@ -1,61 +1,51 @@
 <template>
-    <div class="Base">
-        <h1>{{ msg }}</h1>
-        <h2>{{title}}</h2>
-        <InputForm
-            @setWord="setWord"
-        ></InputForm>
-
-        <DisplayArea
-            v-bind:ArticleDatas="dataObj"
-            v-bind:tag="Word"
-        ></DisplayArea>
-
-    </div>
+  <div class="Base">
+    <h1>{{ msg }}</h1>
+    <h2>{{ title }}</h2>
+    <InputForm @setWord="setWord"></InputForm>
+    <DisplayArea :article-datas="dataObj" :tag="Word"></DisplayArea>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
-import InputForm from '@/components/InputForm'
-import DisplayArea from '@/components/DisplayArea'
+import axios from "axios";
+import InputForm from "@/components/InputForm";
+import DisplayArea from "@/components/DisplayArea";
 
-const URL_BASE_Qiita = 'https://qiita.com/api/v2/tags/'
-const DITAIL_Qiita = '/items?page=1&per_page='
+const URL_BASE_Qiita = "https://qiita.com/api/v2/tags/";
+const DITAIL_Qiita = "/items?page=1&per_page=";
 
-
-
-export default{
-    components:{
-        InputForm,
-        DisplayArea
-    },
-    data(){
-        return{
-            msg:'Vue axios',
-            title:'Qiita API V2',
-            url:null,
-            dataObj:Object,
-            Word:String,
-        }
-    },
-    watch:{
-        url:async function(url){
-            try{
-                await axios.get(url)
-                .then(response => ( this.dataObj = response.data));
-                console.log(JSON.stringify(this.dataObj));
-            }catch(e){
-                console.error(e);
-                return;
-            }
-        }
-    },
-    methods:{
-        setWord(Word,MaxIndex){
-            this.dataObj = null;
-            this.Word = Word;
-            this.url = URL_BASE_Qiita + Word + DITAIL_Qiita + MaxIndex;
-        }
-    },
-}
+export default {
+  components: {
+    InputForm,
+    DisplayArea
+  },
+  data() {
+    return {
+      msg: "Vue axios",
+      title: "Qiita API V2",
+      url: null,
+      dataObj: Object,
+      Word: String
+    };
+  },
+  watch: {
+    url: async function(url) {
+      try {
+        await axios.get(url).then(response => (this.dataObj = response.data));
+      } catch (e) {
+        console.error(e);
+        return;
+      }
+    }
+  },
+  methods: {
+    setWord(Word, MaxIndex) {
+      this.dataObj = null;
+      this.Word = Word;
+      console.log(this.Word);
+      this.url = URL_BASE_Qiita + Word + DITAIL_Qiita + MaxIndex;
+    }
+  }
+};
 </script>
