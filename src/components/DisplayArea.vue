@@ -89,21 +89,21 @@ export default {
   props: {
     articles: {
       type: Array,
-      default: [],
+      default: []
     },
     status: {
       type: Boolean,
-      default: false,
+      default: false
     },
     tag: {
       type: String,
-      default: '',
-    },
+      default: ''
+    }
   },
   data() {
     return {
       page: 1, //現在のページ番号
-      perPage: 5, //1ページ毎の表示件数
+      perPage: 5 //1ページ毎の表示件数
     };
   },
   computed: {
@@ -117,12 +117,12 @@ export default {
     MaxPage() {
       if (!this.status) return null;
       return Math.ceil(this.articles.length / this.perPage); //総ページ数
-    },
+    }
   },
   watch: {
     articles() {
       this.page = 1;
-    },
+    }
   },
   methods: {
     prevPage() {
@@ -130,8 +130,8 @@ export default {
     },
     nextPage() {
       this.page = Math.min(this.page + 1, this.MaxPage);
-    },
-  },
+    }
+  }
 };
 </script>
 
