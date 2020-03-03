@@ -15,13 +15,13 @@ import DisplayArea from '@/components/DisplayArea';
 export default {
   components: {
     InputForm,
-    DisplayArea,
+    DisplayArea
   },
   data() {
     return {
       articles: [],
       status: false,
-      tag: '',
+      tag: ''
     };
   },
   methods: {
@@ -48,7 +48,7 @@ export default {
       this.articles.sort((a, b) => {
         return b.likes_count - a.likes_count;
       });
-    },
-  },
+    }
+  }
 };
 </script>
