@@ -1,7 +1,7 @@
 {
   "parser": "vue-eslint-parser",
   "parserOptions": {
-    "parser": "babel-eslint", // es6用のparserはoptionsの仲へ
+    "parser": "babel-eslint",
     "sourceType": "module"
   },
   "extends": [
@@ -24,7 +24,7 @@
       {
         "properties": "always"
       }
-    ]
-  },
-  "vue/component-name-in-template-casing": "no"
+    ],
+    "vue/component-name-in-template-casing": "off"
+  }
 }
