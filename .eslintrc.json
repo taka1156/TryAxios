@@ -1,27 +1,30 @@
 {
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "parser": "babel-eslint", // es6用のparserはoptionsの仲へ
+    "sourceType": "module"
+  },
   "extends": [
     "eslint:recommended",
     "plugin:vue/recommended",
     "plugin:prettier/recommended",
     "prettier/vue"
   ],
-  "plugins": ["vue"],
-  "parserOptions": {},
+  "plugins": [
+    "vue"
+  ],
   "env": {
     "browser": true,
     "es6": true
   },
   "globals": {},
   "rules": {
-    "prettier/prettier": [
-      "error",
+    "camelcase": [
+      2,
       {
-        "semi": true,
-        "singleQuote": true,
-        "endOfLine": "crlf"
+        "properties": "always"
       }
-    ],
-    "camelcase": [2, { "properties": "always" }],
-    "vue/require-default-prop": 0
-  }
+    ]
+  },
+  "vue/component-name-in-template-casing": "no"
 }
