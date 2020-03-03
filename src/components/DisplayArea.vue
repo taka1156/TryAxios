@@ -2,15 +2,14 @@
   <div class="DisplayArea">
     <div class="jumbotron">
       <div class="container">
-        <h1 v-if="tag != null">{{ tag }}</h1>
-
-        <div v-if="articleDatas === null">
+        <h1 v-show="tag !== ''">{{ tag }}</h1>
+        <div v-show="!status && tag">
           <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
           </div>
         </div>
         <!--表示領域-->
-        <span v-else class="mx-auto">
+        <span v-show="status && tag" class="mx-auto">
           <!--ページ送り-->
           <div class="d-flex justify-content-center">
             <p class="mr-3 h4" @click="prevPage()">
@@ -88,32 +87,42 @@
 export default {
   name: 'DisplayArea',
   props: {
-    articleDatas: null,
-    tag: null
+    articles: {
+      type: Array,
+      default: [],
+    },
+    status: {
+      type: Boolean,
+      default: false,
+    },
+    tag: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
       page: 1, //現在のページ番号
-      perPage: 5 //1ページ毎の表示件数
+      perPage: 5, //1ページ毎の表示件数
     };
   },
   computed: {
     SliceItems() {
-      if (this.articleDatas == null) return;
-      return this.articleDatas.slice(
+      if (!this.status) return null;
+      return this.articles.slice(
         (this.page - 1) * this.perPage,
         this.page * this.perPage
       );
     },
     MaxPage() {
-      return Math.ceil(this.articleDatas.length / this.perPage); //総ページ数
-    }
+      if (!this.status) return null;
+      return Math.ceil(this.articles.length / this.perPage); //総ページ数
+    },
   },
   watch: {
-    articleDatas: function() {
+    articles() {
       this.page = 1;
-      this.Sort();
-    }
+    },
   },
   methods: {
     prevPage() {
@@ -122,20 +131,7 @@ export default {
     nextPage() {
       this.page = Math.min(this.page + 1, this.MaxPage);
     },
-    Sort() {
-      for (let i = 0; i < this.articleDatas.length; i++) {
-        for (let j = i; j < this.articleDatas.length; j++) {
-          if (
-            this.articleDatas[i].likes_count < this.articleDatas[j].likes_count
-          ) {
-            let tmp = this.articleDatas[i];
-            this.articleDatas[i] = this.articleDatas[j];
-            this.articleDatas[j] = tmp;
-          }
-        }
-      }
-    }
-  }
+  },
 };
 </script>
 

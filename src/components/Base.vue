@@ -1,51 +1,54 @@
 <template>
   <div class="Base">
-    <h1>{{ msg }}</h1>
-    <h2>{{ title }}</h2>
+    <h1>Vue axios</h1>
+    <h2>Qiita API V2</h2>
     <InputForm @setWord="setWord"></InputForm>
-    <DisplayArea :article-datas="dataObj" :tag="Word"></DisplayArea>
+    <DisplayArea :articles="articles" :tag="tag" :status="status"></DisplayArea>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import InputForm from "@/components/InputForm";
-import DisplayArea from "@/components/DisplayArea";
-
-const URL_BASE_Qiita = "https://qiita.com/api/v2/tags/";
-const DITAIL_Qiita = "/items?page=1&per_page=";
+import axios from 'axios';
+import InputForm from '@/components/InputForm';
+import DisplayArea from '@/components/DisplayArea';
 
 export default {
   components: {
     InputForm,
-    DisplayArea
+    DisplayArea,
   },
   data() {
     return {
-      msg: "Vue axios",
-      title: "Qiita API V2",
-      url: null,
-      dataObj: Object,
-      Word: String
+      articles: [],
+      status: false,
+      tag: '',
     };
   },
-  watch: {
-    url: async function(url) {
+  methods: {
+    setWord(word, maxIndex) {
+      this.articles = [];
+      this.status = false;
+      this.tag = word;
+      const URL = `https://qiita.com/api/v2/tags/${word}/items?page=1&per_page=${maxIndex}`;
+      this.getArticle(URL);
+    },
+    async getArticle(url) {
       try {
-        await axios.get(url).then(response => (this.dataObj = response.data));
+        await axios.get(url).then(response => {
+          this.articles = response.data;
+          this.sort();
+          this.status = true;
+        });
       } catch (e) {
         console.error(e);
         return;
       }
-    }
+    },
+    sort() {
+      this.articles.sort((a, b) => {
+        return b.likes_count - a.likes_count;
+      });
+    },
   },
-  methods: {
-    setWord(Word, MaxIndex) {
-      this.dataObj = null;
-      this.Word = Word;
-      console.log(this.Word);
-      this.url = URL_BASE_Qiita + Word + DITAIL_Qiita + MaxIndex;
-    }
-  }
 };
 </script>
